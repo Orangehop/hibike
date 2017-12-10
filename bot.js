@@ -65,3 +65,11 @@ http.createServer(function (request, response) {
 }).listen(process.env.PORT || 5000);
 
 client.login(BOT_TOKEN);
+
+setInterval(() => {
+    request.get('https://hibike.herokuapp.com/').then(
+        (err, res, body) => {
+            console.log(body);
+        }
+    )
+}, 60000);

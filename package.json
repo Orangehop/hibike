@@ -4,7 +4,8 @@
   "description": "",
   "main": "bot.js",
   "scripts": {
-    "start": "source .env && node bot.js",
+    "start": "node bot.js",
+    "dev" : "source .env && node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

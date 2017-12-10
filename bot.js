@@ -53,4 +53,14 @@ client.on('message', message => {
     }
 });
 
+client.on('disconnect', () => {
+    client.login(BOT_TOKEN);
+});
+
+
+http.createServer(function (request, response) {
+    response.writeHead(200);
+    response.end("Hello World!", 'utf-8');
+}).listen(process.env.PORT || 5000);
+
 client.login(BOT_TOKEN);

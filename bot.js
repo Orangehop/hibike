@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 var request = require('request');
 const client = new Discord.Client();
+var http = require('http');
 var fs = require('fs');
 
 var BOT_TOKEN = process.env.BOT_TOKEN;

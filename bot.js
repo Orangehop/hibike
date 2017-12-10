@@ -4,8 +4,6 @@ const client = new Discord.Client();
 var fs = require('fs');
 
 var BOT_TOKEN = process.env.BOT_TOKEN;
-var STREAMABLE_USER = process.env.STREAMABLE_USER;
-var STREAMABLE_PASSWORD = process.env.STREAMABLE_PASSWORD;
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -20,24 +18,24 @@ client.on('message', msg => {
 client.on('message', message => {
     if (message.content.indexOf('h@') != -1) {
         var soundDir = `./sounds/${message.content.replace('h@', '')}`;
-        var soundFiles = fs.readdirSync(soundDir);
-        var soundFile = soundDir + "/" + soundFiles[Math.floor(Math.random() * soundFiles.length)];
         // Only try to join the sender's voice channel if they are in one themselves
         if (message.member.voiceChannel) {
-            fs.stat(soundFile, function(err, stat) {
-                if(err == null) {
+            fs.stat(soundDir, function (err, stat) {
+                if (err == null) {
+                    var soundFiles = fs.readdirSync(soundDir);
+                    var soundFile = soundDir + "/" + soundFiles[Math.floor(Math.random() * soundFiles.length)];
                     message.member.voiceChannel.join()
-                    .then(connection => { // Connection is an instance of VoiceConnection
-                        var stream = fs.createReadStream(soundFile);
-                        var dispatcher = connection.playStream(stream);
-                        dispatcher.on('end', () => {
-                            message.member.voiceChannel.leave();
-                        })
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-                } else if(err.code == 'ENOENT') {
+                        .then(connection => { // Connection is an instance of VoiceConnection
+                            let stream = fs.createReadStream(soundFile);
+                            //let dispatcher = connection.playFile(__rname + "/" + soundFile);
+                            let dispatcher = connection.playStream(stream);
+                            dispatcher.on('end', () => {
+                                message.member.voiceChannel.leave();
+                            }, 3000);
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                } else if (err.code == 'ENOENT') {
                     message.reply('That sound doesn\'t exist!');
                 } else {
                     message.reply('Something weird happened...');

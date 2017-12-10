@@ -19,7 +19,9 @@ client.on('message', msg => {
 
 client.on('message', message => {
     if (message.content.indexOf('h@') != -1) {
-        var soundFile = `./sounds/${message.content.replace('h@', '')}.mp4`
+        var soundDir = `./sounds/${message.content.replace('h@', '')}`;
+        var soundFiles = fs.readdirSync(soundDir);
+        var soundFile = soundDir + "/" + soundFiles[Math.floor(Math.random() * soundFiles.length)];
         // Only try to join the sender's voice channel if they are in one themselves
         if (message.member.voiceChannel) {
             fs.stat(soundFile, function(err, stat) {
@@ -47,7 +49,8 @@ client.on('message', message => {
     }
     if (message.content === 'h!sounds') {
         var sounds = fs.readdirSync('./sounds');
-        var msg = "```" + sounds.join('\n') + "```";
+        console.log(sounds);
+        var msg = "```" + sounds.join(' \n') + "```";
         message.reply(msg);
     }
 });

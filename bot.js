@@ -67,7 +67,7 @@ http.createServer(function (request, response) {
 client.login(BOT_TOKEN);
 
 setInterval(() => {
-    request.get('https://hibike.herokuapp.com/').then(
+    request.get('https://hibike.herokuapp.com/', 
         (err, res, body) => {
             console.log(body);
         }
